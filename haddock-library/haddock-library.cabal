@@ -44,7 +44,7 @@ library
   other-modules:
     Documentation.Haddock.Parser.Util
 
-  ghc-options: -funbox-strict-fields -Wall -fwarn-tabs -O2
+  ghc-options: -funbox-strict-fields -Wall -fwarn-tabs -O0
   if impl(ghc >= 8.0)
     ghc-options: -Wcompat -Wnoncanonical-monad-instances -Wnoncanonical-monadfail-instances
 
