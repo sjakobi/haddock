@@ -99,6 +99,9 @@ spec = do
       it "can parse a qualified identifier" $ do
         "'Foo.bar'" `shouldParseTo` DocIdentifier "Foo.bar"
 
+      it "doesn't parse a composed function as an identifier" $ do
+        "'foo.bar'" `shouldParseTo` "'foo.bar'"
+
       it "parses a word with an one of the delimiters in it as DocString" $ do
           "don't" `shouldParseTo` "don't"
 
@@ -132,6 +135,15 @@ spec = do
 
       it "can parse an identifier that starts with an underscore" $ do
         "'_x'" `shouldParseTo` DocIdentifier "_x"
+
+      it "parses a pretend-identifier that starts with a digit as a string" $ do
+        "'0foo'" `shouldParseTo` "'0foo'"
+
+      it "can parse an identifier preceded by a single quote and a digit" $ do
+        "'0'foo'" `shouldParseTo` "'0" <> DocIdentifier "foo"
+
+      it "doesn't parse a mix of letters and operator symbols" $ do
+        "'f$'" `shouldParseTo` "'f$'"
 
     context "when parsing operators" $ do
       it "can parse an operator enclosed within single quotes" $ do
