@@ -136,6 +136,9 @@ spec = do
       it "can parse an identifier that starts with an underscore" $ do
         "'_x'" `shouldParseTo` DocIdentifier "_x"
 
+      it "can parse identifiers in infix notation enclosed within single quotes" $ do
+        "'`infix`'" `shouldParseTo` "`" <> DocIdentifier "infix" <> "`"
+
       it "parses a pretend-identifier that starts with a digit as a string" $ do
         "'0foo'" `shouldParseTo` "'0foo'"
 
