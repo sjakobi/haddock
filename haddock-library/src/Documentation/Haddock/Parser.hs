@@ -832,16 +832,19 @@ autoUrl = mkLink <$> url
 -- deems to be valid in an identifier. Note that it simply blindly consumes
 -- characters and does no actual validation itself.
 parseValid :: Parser String
-parseValid = p some
+parseValid = do
+    c <- Parsec.satisfy (\c -> isAlpha c || isSymbolChar c || c == '_')
+    cs <- p
+    return (c : cs)
   where
     idChar = Parsec.satisfy (\c -> isAlphaNum c || isSymbolChar c || c == '_')
 
-    p p' = do
-      vs <- p' idChar
+    p = do
+      vs <- many idChar
       c <- peekChar'
       case c of
         '`' -> return vs
-        '\'' -> choice' [ (\x -> vs ++ "'" ++ x) <$> ("'" *> p many), return vs ]
+        '\'' -> choice' [ (\x -> vs ++ "'" ++ x) <$> ("'" *> p), return vs ]
         _ -> fail "outofvalid"
 
 -- | Parses identifiers with help of 'parseValid'. Asks GHC for
