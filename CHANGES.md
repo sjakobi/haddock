@@ -38,7 +38,13 @@
    This notably fixes rendering of quasiquotes.
 
  * Overhaul Haddock's rendering of kind signatures so that invisible kind
-   parameters are not printed (#681)
+   parameters are not printed (#681) (Fixes #544)
+
+ * Overhaul handling of data declarations in XHTML and LaTeX. Adds support for
+   documenting individual arguments of constructors/patterns (#709)
+
+ * Remove the response file related utilities, and use the ones that
+   come with `base` (Trac #13896)
 
  * Recognise `SPDX-License-Identifier` as alias for `License` in module header
    parser (#743)
