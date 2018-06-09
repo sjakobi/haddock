@@ -27,7 +27,7 @@ import GHC
 import OccName
 import Name                 ( nameOccName )
 import RdrName              ( rdrNameOcc )
-import FastString           ( unpackFS, unpackLitString, zString )
+import FastString           ( unpackFS )
 import Outputable           ( panic)
 
 import qualified Data.Map as Map
@@ -539,7 +539,7 @@ ppClassDecl instances doc subdocs
 
     methodTable =
       text "\\haddockpremethods{}\\textbf{Methods}" $$
-      vcat  [ ppFunSig loc doc [name] (hsSigWcType typ) unicode
+      vcat  [ ppFunSig doc [name] (hsSigWcType typ) unicode
             | L _ (TypeSig _ lnames typ) <- lsigs
             , name <- map unLoc lnames
             , let doc = lookupAnySubdoc name subdocs
