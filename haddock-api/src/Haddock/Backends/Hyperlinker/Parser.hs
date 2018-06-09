@@ -302,7 +302,6 @@ classify tok =
     ITrarrow            {} -> TkGlyph
     ITat                   -> TkGlyph
     ITtilde                -> TkGlyph
-    ITtildehsh             -> TkGlyph
     ITdarrow            {} -> TkGlyph
     ITminus                -> TkGlyph
     ITbang                 -> TkGlyph
