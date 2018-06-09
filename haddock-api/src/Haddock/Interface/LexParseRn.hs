@@ -22,7 +22,6 @@ import Data.List
 import Documentation.Haddock.Doc (metaDocConcat)
 import DynFlags (languageExtensions)
 import qualified GHC.LanguageExtensions as LangExt
-import FastString
 import GHC
 import Haddock.Interface.ParseModuleHeader
 import Haddock.Parser
@@ -44,9 +43,9 @@ processDocStrings dflags pkg gre strs = do
     MetaDoc { _meta = Meta Nothing Nothing, _doc = DocEmpty } -> pure Nothing
     x -> pure (Just x)
 
-processDocStringParas :: DynFlags -> GlobalRdrEnv -> HsDocString -> ErrMsgM (MDoc Name)
-processDocStringParas dflags gre hds =
-  overDocF (rename dflags gre) $ parseParas dflags (unpackHDS hds)
+processDocStringParas :: DynFlags -> Maybe Package -> GlobalRdrEnv -> HsDocString -> ErrMsgM (MDoc Name)
+processDocStringParas dflags pkg gre hds =
+  overDocF (rename dflags gre) $ parseParas dflags pkg (unpackHDS hds)
 
 processDocString :: DynFlags -> GlobalRdrEnv -> HsDocString -> ErrMsgM (Doc Name)
 processDocString dflags gre hds =
@@ -60,7 +59,7 @@ processModuleHeader dflags pkgName gre safety mayStr = do
       Nothing -> return failure
       Just (L _ hds) -> do
         let str = unpackHDS hds
-            (hmi, doc) = parseModuleHeader dflags str
+            (hmi, doc) = parseModuleHeader dflags pkgName str
         !descr <- case hmi_description hmi of
                     Just hmi_descr -> Just <$> rename dflags gre hmi_descr
                     Nothing        -> pure Nothing
