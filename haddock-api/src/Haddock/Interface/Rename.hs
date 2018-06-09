@@ -274,7 +274,7 @@ renameType t = case t of
   (XHsType (NHsCoreTy a))   -> pure (XHsType (NHsCoreTy a))
   HsExplicitListTy x i b    -> HsExplicitListTy x i <$> mapM renameLType b
   HsExplicitTupleTy x b     -> HsExplicitTupleTy x <$> mapM renameLType b
-  HsSpliceTy _ _            -> error "renameType: HsSpliceTy"
+  HsSpliceTy _ s            -> renameHsSpliceTy s
   HsWildCardTy a            -> HsWildCardTy <$> renameWildCardInfo a
   HsAppsTy _ _              -> error "renameType: HsAppsTy"
 
@@ -285,8 +285,8 @@ renameType t = case t of
 --  * the input is typechecked, and only 'HsSplicedTy' should get through that
 --
 renameHsSpliceTy :: HsSplice GhcRn -> RnM (HsType DocNameI)
-renameHsSpliceTy (HsSpliced _ (HsSplicedTy t)) = renameType t
-renameHsSpliceTy (HsSpliced _ _) = error "renameHsSpliceTy: not an HsSplicedTy"
+renameHsSpliceTy (HsSpliced _ _ (HsSplicedTy t)) = renameType t
+renameHsSpliceTy (HsSpliced _ _ _) = error "renameHsSpliceTy: not an HsSplicedTy"
 renameHsSpliceTy _ = error "renameHsSpliceTy: not an HsSpliced"
 
 renameLHsQTyVars :: LHsQTyVars GhcRn -> RnM (LHsQTyVars DocNameI)
