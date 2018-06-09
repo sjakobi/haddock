@@ -98,7 +98,7 @@ types = everythingInRenamedSource ty
     ty term = case cast term of
         (Just ((GHC.L sspan (GHC.HsTyVar _ _ name)) :: GHC.LHsType GHC.GhcRn)) ->
             pure (sspan, RtkType (GHC.unLoc name))
-        (Just ((GHC.L sspan (GHC.HsOpTy l name r)) :: GHC.LHsType GHC.GhcRn)) ->
+        (Just ((GHC.L sspan (GHC.HsOpTy _ l name r)) :: GHC.LHsType GHC.GhcRn)) ->
             (sspan, RtkType (GHC.unLoc name)):(ty l ++ ty r)
         _ -> empty
 
@@ -115,7 +115,7 @@ binds = everythingInRenamedSource
     fun term = case cast term of
         (Just (GHC.FunBind _ (GHC.L sspan name) _ _ _ :: GHC.HsBind GHC.GhcRn)) ->
             pure (sspan, RtkBind name)
-        (Just (GHC.PatSynBind (GHC.PSB (GHC.L sspan name) _ args _ _))) ->
+        (Just (GHC.PatSynBind _ (GHC.PSB _ (GHC.L sspan name) args _ _))) ->
             pure (sspan, RtkBind name) ++ everythingInRenamedSource patsyn_binds args
         _ -> empty
     patsyn_binds term = case cast term of
@@ -161,7 +161,7 @@ decls (group, _, _, _) = concatMap ($ group)
     fun term = case cast term of
         (Just (GHC.FunBind _ (GHC.L sspan name) _ _ _ :: GHC.HsBind GHC.GhcRn))
            | GHC.isExternalName name -> pure (sspan, RtkDecl name)
-        (Just (GHC.PatSynBind (GHC.PSB (GHC.L sspan name) _ _ _ _)))
+        (Just (GHC.PatSynBind _ (GHC.PSB _ (GHC.L sspan name) _ _ _)))
             | GHC.isExternalName name -> pure (sspan, RtkDecl name)
         _ -> empty
     con term = case cast term of
@@ -206,7 +206,7 @@ imports src@(_, imps, _, _) =
         (Just (GHC.IEThingAll _ t)) -> pure $ typ $ GHC.ieLWrappedName t
         (Just (GHC.IEThingWith _ t _ vs _fls)) ->
           [typ $ GHC.ieLWrappedName t] ++ map (var . GHC.ieLWrappedName) vs
-        (Just (GHC.IEModuleContents m)) -> pure $ modu m
+        (Just (GHC.IEModuleContents _ m)) -> pure $ modu m
         _ -> empty
     typ (GHC.L sspan name) = (sspan, RtkType name)
     var (GHC.L sspan name) = (sspan, RtkVar name)
