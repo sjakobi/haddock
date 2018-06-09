@@ -40,7 +40,7 @@ import Name
 import BooleanFormula
 import RdrName ( rdrNameOcc )
 import Outputable ( panic )
-<<<<<<< HEAD
+
 ppDecl :: Bool                                     -- ^ print summary info only
        -> LinksInfo                                -- ^ link information
        -> LHsDecl DocNameI                         -- ^ declaration to print
@@ -55,14 +55,14 @@ ppDecl :: Bool                                     -- ^ print summary info only
        -> Qualification
        -> Html
 ppDecl summ links (L loc decl) pats (mbDoc, fnArgsDoc) instances fixities subdocs splice unicode pkg qual = case decl of
-  TyClD _ (FamDecl d)            -> ppTyFam summ False links instances fixities loc mbDoc d splice unicode pkg qual
+  TyClD _ (FamDecl _ d)          -> ppTyFam summ False links instances fixities loc mbDoc d splice unicode pkg qual
   TyClD _ d@(DataDecl {})        -> ppDataDecl summ links instances fixities subdocs loc mbDoc d pats splice unicode pkg qual
   TyClD _ d@(SynDecl {})         -> ppTySyn summ links fixities loc (mbDoc, fnArgsDoc) d splice unicode pkg qual
   TyClD _ d@(ClassDecl {})       -> ppClassDecl summ links instances fixities loc mbDoc subdocs d splice unicode pkg qual
-  SigD _ (TypeSig lnames lty)    -> ppLFunSig summ links loc (mbDoc, fnArgsDoc) lnames
+  SigD _ (TypeSig _ lnames lty)  -> ppLFunSig summ links loc (mbDoc, fnArgsDoc) lnames
                                          (hsSigWcType lty) fixities splice unicode pkg qual
-  SigD _ (PatSynSig lnames ty)   -> ppLPatSig summ links loc (mbDoc, fnArgsDoc) lnames
-                                         ty fixities splice unicode pkg qual
+  SigD _ (PatSynSig _ lnames lty) -> ppLPatSig summ links loc (mbDoc, fnArgsDoc) lnames
+                                         (hsSigType lty) fixities splice unicode pkg qual
   ForD _ d                       -> ppFor summ links loc (mbDoc, fnArgsDoc) d fixities splice unicode pkg qual
   InstD _ _                      -> noHtml
   DerivD _ _                     -> noHtml
@@ -85,16 +85,14 @@ ppFunSig summary links loc doc docnames typ fixities splice unicode pkg qual =
   where
     pp_typ = ppLType unicode qual HideEmptyContexts typ
 
-<<<<<<< HEAD
 -- | Pretty print a pattern synonym
 ppLPatSig :: Bool -> LinksInfo -> SrcSpan -> DocForDecl DocName
           -> [Located DocName]     -- ^ names of patterns in declaration
           -> LHsType DocNameI      -- ^ type of patterns in declaration
           -> [(DocName, Fixity)]
           -> Splice -> Unicode -> Maybe Package -> Qualification -> Html
-ppLPatSig summary links loc (doc, _argDocs) docnames typ fixities splice
-          unicode pkg qual
-ppLPatSig summary links loc doc lnames typ fixities splice unicode qual =
+ppLPatSig summary links loc doc lnames typ fixities splice
+          unicode pkg qual =
   ppSigLike summary links loc (keyword "pattern") doc (map unLoc lnames) fixities
             (unLoc typ, pp_typ) splice unicode pkg qual (patSigContext typ)
   where
@@ -230,7 +228,6 @@ tyvarNames = map (getName . hsLTyVarName) . hsQTvExplicit
 
 ppFor :: Bool -> LinksInfo -> SrcSpan -> DocForDecl DocName
       -> ForeignDecl DocNameI -> [(DocName, Fixity)]
-<<<<<<< HEAD
       -> Splice -> Unicode -> Maybe Package -> Qualification -> Html
 ppFor summary links loc doc (ForeignImport _ (L _ name) typ _) fixities
       splice unicode pkg qual
@@ -527,7 +524,7 @@ ppShortClassDecl summary links (ClassDecl { tcdCtxt = lctxt, tcdLName = lname, t
                 -- ToDo: add associated type defaults
 
             [ ppFunSig summary links loc doc names (hsSigWcType typ)
-                       [] splice unicode qual
+                       [] splice unicode pkg qual
               | L _ (TypeSig _ lnames typ) <- sigs
               , let doc = lookupAnySubdoc (head names) subdocs
                     names = map unLoc lnames ]
@@ -811,7 +808,7 @@ ppDataDecl summary links instances fixities subdocs loc doc dataDecl pats
       ]
 
     patternBit = subPatterns pkg qual
-      [ ppSideBySidePat subfixs unicode qual lnames typ d
+      [ ppSideBySidePat subfixs unicode pkg qual lnames typ d
       | (SigD _ (PatSynSig _ lnames typ), d) <- pats
       , let subfixs = filter (\(n,_) -> any (\cn -> cn == n)
                                             (map unLoc lnames)) fixities
@@ -963,7 +960,7 @@ ppSideBySideConstr subdocs fixities unicode pkg qual (L _ con)
     doRecordFields fields = subFields pkg qual
       (map (ppSideBySideField subdocs unicode qual) (map unLoc fields))
 
-    doConstrArgsWithDocs args = subFields qual $ case con of
+    doConstrArgsWithDocs args = subFields pkg qual $ case con of
       ConDeclH98{} ->
         [ (ppLParendType unicode qual HideEmptyContexts arg, mdoc, [])
         | (i, arg) <- zip [0..] args
@@ -1027,12 +1024,12 @@ ppShortField _ _ _ (XConDeclField _) = panic "haddock:ppShortField"
 
 
 -- | Pretty print an expanded pattern (for bundled patterns)
-ppSideBySidePat :: [(DocName, Fixity)] -> Unicode -> Qualification
+ppSideBySidePat :: [(DocName, Fixity)] -> Unicode -> Maybe Package -> Qualification
                    -> [Located DocName]    -- ^ pattern name(s)
                    -> LHsSigType DocNameI  -- ^ type of pattern(s)
                    -> DocForDecl DocName   -- ^ doc map
                    -> SubDecl
-ppSideBySidePat fixities unicode qual lnames typ (doc, argDocs) =
+ppSideBySidePat fixities unicode pkg qual lnames typ (doc, argDocs) =
   ( decl
   , combineDocumentation doc
   , fieldPart
@@ -1052,7 +1049,7 @@ ppSideBySidePat fixities unicode qual lnames typ (doc, argDocs) =
 
     fieldPart
       | not hasArgDocs = []
-      | otherwise = [ subFields qual (ppSubSigLike unicode qual (unLoc patTy)
+      | otherwise = [ subFields pkg qual (ppSubSigLike unicode qual (unLoc patTy)
                                                         argDocs [] (dcolon unicode)
                                                         emptyCtxt) ]
 
