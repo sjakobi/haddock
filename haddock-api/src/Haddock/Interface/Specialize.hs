@@ -41,11 +41,11 @@ specialize specs = go
     specialize_ty_var :: HsType GhcRn -> HsType GhcRn
     specialize_ty_var (HsTyVar _ _ (L _ name'))
       | Just t <- Map.lookup name' spec_map = t
-    specialize_ty_var _ typ = typ
-
-    -- This is a tricky recursive definition. By adding in the specializations
-    -- one by one, we should avoid infinite loops.
-    spec_map0 = foldr (\(n,t) acc -> Map.insert n (go acc t) acc) mempty specs
+    specialize_ty_var typ = typ
+    -- This is a tricky recursive definition that is guaranteed to terminate
+    -- because a type binder cannot be instantiated with a type that depends
+    -- on that binder. i.e. @a -> Maybe a@ is invalid
+    spec_map = Map.fromList [ (n, go t) | (n, t) <- specs]
 
 
 -- | Instantiate given binders with corresponding types.
