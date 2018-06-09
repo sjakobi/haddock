@@ -58,10 +58,10 @@ import Packages   ( lookupModuleInAllPackages, PackageName(..) )
 import Bag
 import RdrName
 import TcRnTypes
-import FastString ( concatFS, unpackFS, fastStringToByteString )
+import FastString ( unpackFS, fastStringToByteString )
 import BasicTypes ( StringLiteral(..), SourceText(..) )
 import qualified Outputable as O
-import HsDecls    ( getConDetails, getConArgs )
+import HsDecls    ( getConArgs )
 
 
 -- | Use a 'TypecheckedModule' to produce an 'Interface'.
@@ -665,7 +665,7 @@ mkExportItems
       return [ExportGroup lev "" doc]
 
     lookupExport (IEDoc _ docStr, _)        = liftErrMsg $ do
-      doc <- processDocStringParas dflags gre docStr
+      doc <- processDocStringParas dflags pkgName gre docStr
       return [ExportDoc doc]
 
     lookupExport (IEDocNamed _ str, _)      = liftErrMsg $
@@ -1010,10 +1010,10 @@ fullModuleContents is_sig modMap pkgName thisMod semMod warnings gre exportedNam
   let availEnv = availsToNameEnv (nubAvails avails)
   (concat . concat) `fmap` (for decls $ \decl -> do
     case decl of
-      (L _ (DocD (DocGroup lev docStr))) -> do
+      (L _ (DocD _ (DocGroup lev docStr))) -> do
         doc <- liftErrMsg (processDocString dflags gre docStr)
         return [[ExportGroup lev "" doc]]
-      (L _ (DocD (DocCommentNamed _ docStr))) -> do
+      (L _ (DocD _ (DocCommentNamed _ docStr))) -> do
         doc <- liftErrMsg (processDocStringParas dflags pkgName gre docStr)
         return [[ExportDoc doc]]
       (L _ (ValD _ valDecl))
@@ -1087,7 +1087,7 @@ extractDecl declMap name decl
         if isDataConName name
         then SigD noExt <$> extractPatternSyn name n tys (dd_cons defn)
         else SigD noExt <$> extractRecSel name n tys (dd_cons defn)
-      InstD _ (ClsInstD _ ClsInstDecl { cid_datafam_insts = insts }) ->
+      InstD _ (ClsInstD _ ClsInstDecl { cid_datafam_insts = insts })
         | isDataConName name ->
             let matches = [ d' | L _ d'@(DataFamInstDecl (HsIB { hsib_body =
                                           FamEqn { feqn_rhs   = dd
@@ -1102,13 +1102,13 @@ extractDecl declMap name decl
             let matches = [ d' | L _ d'@(DataFamInstDecl (HsIB { hsib_body = d }))
                                    <- insts
                                  -- , L _ ConDecl { con_details = RecCon rec } <- dd_cons (feqn_rhs d)
-                               , RecCon rec <- map (getConDetails . unLoc) (dd_cons (feqn_rhs d))
+                               , RecCon rec <- map (getConArgs . unLoc) (dd_cons (feqn_rhs d))
                                , ConDeclField { cd_fld_names = ns } <- map unLoc (unLoc rec)
                                , L _ n <- ns
-                               , selectorFieldOcc n == name
+                               , extFieldOcc n == name
                           ]
             in case matches of
-              [d0] -> extractDecl declMap name (noLoc . InstD $ DataFamInstD d0)
+              [d0] -> extractDecl declMap name (noLoc . InstD noExt $ DataFamInstD noExt d0)
               _ -> error "internal: extractDecl (ClsInstD)"
       _ -> error "internal: extractDecl"
 
