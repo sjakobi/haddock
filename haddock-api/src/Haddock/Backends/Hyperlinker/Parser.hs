@@ -284,9 +284,6 @@ classify tok =
     IToptions_prag      {} -> TkPragma
     ITinclude_prag      {} -> TkPragma
     ITlanguage_prag        -> TkPragma
-    ITvect_prag         {} -> TkPragma
-    ITvect_scalar_prag  {} -> TkPragma
-    ITnovect_prag       {} -> TkPragma
     ITminimal_prag      {} -> TkPragma
     IToverlappable_prag {} -> TkPragma
     IToverlapping_prag  {} -> TkPragma
@@ -431,9 +428,6 @@ inPragma False tok =
     IToptions_prag      {} -> True
     ITinclude_prag      {} -> True
     ITlanguage_prag        -> True
-    ITvect_prag         {} -> True
-    ITvect_scalar_prag  {} -> True
-    ITnovect_prag       {} -> True
     ITminimal_prag      {} -> True
     IToverlappable_prag {} -> True
     IToverlapping_prag  {} -> True
