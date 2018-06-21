@@ -35,10 +35,10 @@ import RdrName
 import EnumSet
 import RnEnv (dataTcOccs)
 
-processDocStrings :: Maybe Package -> GlobalRdrEnv -> [HsDoc Name]
+processDocStrings :: Maybe Package -> Renamer -> [HsDoc Name]
                   -> ErrMsgGhc (Maybe (MDoc Name))
-processDocStrings pkg gre strs = do
-  mdoc <- metaDocConcat <$> traverse (processDocStringParas pkg gre) strs
+processDocStrings pkg renamer strs = do
+  mdoc <- metaDocConcat <$> traverse (processDocStringParas pkg renamer) strs
   case mdoc of
     -- We check that we don't have any version info to render instead
     -- of just checking if there is no comment: there may not be a
@@ -46,17 +46,17 @@ processDocStrings pkg gre strs = do
     MetaDoc { _meta = Meta Nothing Nothing, _doc = DocEmpty } -> pure Nothing
     x -> pure (Just x)
 
-processDocStringParas :: Maybe Package -> GlobalRdrEnv -> HsDoc Name -> ErrMsgGhc (MDoc Name)
-processDocStringParas pkg gre hsDoc =
-  overDocF (rename gre) $ LibParser.parseParas pkg (unpackHDS (hsDocString hsDoc))
+processDocStringParas :: Maybe Package -> Renamer -> HsDoc Name -> ErrMsgGhc (MDoc Name)
+processDocStringParas pkg renamer hsDoc =
+  overDocF (rename renamer) $ LibParser.parseParas pkg (unpackHDS (hsDocString hsDoc))
 
-processDocString :: GlobalRdrEnv -> HsDoc Name -> ErrMsgGhc (Doc Name)
-processDocString gre hsDoc =
-  rename gre $ LibParser.parseString (unpackHDS (hsDocString hsDoc))
+processDocString :: Renamer -> HsDoc Name -> ErrMsgGhc (Doc Name)
+processDocString renamer hsDoc =
+  rename renamer $ LibParser.parseString (unpackHDS (hsDocString hsDoc))
 
-processModuleHeader :: DynFlags -> Maybe Package -> GlobalRdrEnv -> SafeHaskellMode -> Maybe (LHsDoc Name)
+processModuleHeader :: DynFlags -> Maybe Package -> Renamer -> SafeHaskellMode -> Maybe (LHsDoc Name)
                     -> ErrMsgGhc (HaddockModInfo Name, Maybe (MDoc Name))
-processModuleHeader dflags pkgName gre safety mayStr = do
+processModuleHeader dflags pkgName renamer safety mayStr = do
   (hmi, doc) <-
     case mayStr of
       Nothing -> return failure
@@ -64,13 +64,16 @@ processModuleHeader dflags pkgName gre safety mayStr = do
         let str = unpackHDS (hsDocString hsDoc)
             (hmi, doc) = parseModuleHeader pkgName str
         !descr <- case hmi_description hmi of
-                    Just hmi_descr -> Just <$> rename gre hmi_descr
+                    Just hmi_descr -> Just <$> rename renamer hmi_descr
                     Nothing        -> pure Nothing
         let hmi' = hmi { hmi_description = descr }
-        doc'  <- overDocF (rename gre) doc
+        doc'  <- overDocF (rename renamer) doc
         return (hmi', Just doc')
 
   let flags :: [LangExt.Extension]
+      -- TODO: Make sure we're using the right dflags here (which are probably not
+      -- the current ones.
+
       -- We remove the flags implied by the language setting and we display the language instead
       flags = EnumSet.toList (extensionFlags dflags) \\ languageExtensions (language dflags)
   return (hmi { hmi_safety = Just $ showPpr dflags safety
@@ -87,47 +90,34 @@ processModuleHeader dflags pkgName gre safety mayStr = do
 -- fallbacks in case we can't locate the identifiers.
 --
 -- See the comments in the source for implementation commentary.
-rename :: GlobalRdrEnv -> Doc Identifier -> ErrMsgGhc (Doc Name)
-rename gre = undefined rn
+rename :: Renamer -> Doc Identifier -> ErrMsgGhc (Doc Name)
+rename renamer = rn
   where
     rn d = case d of
       DocAppend a b -> DocAppend <$> rn a <*> rn b
       DocParagraph doc -> DocParagraph <$> rn doc
-      DocIdentifier x -> do
-        -- Generate the choices for the possible kind of thing this
-        -- is.
-        let choices = dataTcOccs x
-        -- Try to look up all the names in the GlobalRdrEnv that match
-        -- the names.
-        let names = concatMap (\c -> map gre_name (lookupGRE_RdrName c gre)) choices
+      DocIdentifier id_@(_, x, _) -> do
+        case renamer x of
+          Nothing -> invalid id_
 
-        case names of
-          -- We found no names in the env so we start guessing.
-          [] ->
-            case choices of
-              -- This shouldn't happen as 'dataTcOccs' always returns at least its input.
-              [] -> do
-                dflags <- getDynFlags
-                pure (DocMonospaced (DocString (showPpr dflags x)))
-
-              -- There was nothing in the environment so we need to
-              -- pick some default from what's available to us. We
-              -- diverge here from the old way where we would default
-              -- to type constructors as we're much more likely to
-              -- actually want anchors to regular definitions than
-              -- type constructor names (such as in #253). So now we
-              -- only get type constructor links if they are actually
-              -- in scope.
-              a:_ -> outOfScope a
+          -- There was nothing in the environment so we need to
+          -- pick some default from what's available to us. We
+          -- diverge here from the old way where we would default
+          -- to type constructors as we're much more likely to
+          -- actually want anchors to regular definitions than
+          -- type constructor names (such as in #253). So now we
+          -- only get type constructor links if they are actually
+          -- in scope.
+          Just [] -> outOfScope x
 
           -- There is only one name in the environment that matches so
           -- use it.
-          [a] -> pure (DocIdentifier a)
+          Just [a] -> pure (DocIdentifier a)
 
           -- But when there are multiple names available, default to
           -- type constructors: somewhat awfully GHC returns the
           -- values in the list positionally.
-          a:b:_ -> ambiguous x (if isTyConName a then a else b) names
+          Just names@(a:b:_) -> ambiguous x (if isTyConName a then a else b) names
 
       DocWarning doc -> DocWarning <$> rn doc
       DocEmphasis doc -> DocEmphasis <$> rn doc
@@ -151,6 +141,10 @@ rename gre = undefined rn
       DocHeader (Header l t) -> DocHeader . Header l <$> rn t
       DocTable t -> DocTable <$> traverse rn t
 
+-- | TODO: We could emit a warning here.
+invalid :: Identifier -> ErrMsgGhc (Doc a)
+invalid (o, x, e) = pure (DocString $ o : x ++ [e])
+
 -- | Wrap an identifier that's out of scope (i.e. wasn't found in
 -- 'GlobalReaderEnv' during 'rename') in an appropriate doc. Currently
 -- we simply monospace the identifier in most cases except when the
@@ -159,21 +153,26 @@ rename gre = undefined rn
 -- users shouldn't rely on this doing the right thing. See tickets
 -- #253 and #375 on the confusion this causes depending on which
 -- default we pick in 'rename'.
-outOfScope :: RdrName -> ErrMsgGhc (Doc a)
+outOfScope :: String -> ErrMsgGhc (Doc a)
 outOfScope x = do
   dflags <- getDynFlags
   let warnAndMonospace a = do
         liftErrMsg $ tell ["Warning: '" ++ showPpr dflags a ++ "' is out of scope."]
         pure (monospaced a)
       monospaced a = DocMonospaced (DocString (showPpr dflags a))
-  case x of
-    Unqual occ -> warnAndMonospace occ
-    Qual mdl occ -> pure (DocIdentifierUnchecked (mdl, occ))
-    Orig _ occ -> warnAndMonospace occ
-    Exact name -> warnAndMonospace name  -- Shouldn't happen since x is out of scope
+
+  -- Using our local dflags isn't quite correct – ideally we'd use those GHC used when
+  -- compiling the module
+  case parseIdent dflags x of
+    Nothing -> invalid ('\'', x, '\'') -- Shouldn't happen
+    Just (rdr_name) -> case rdr_name of
+      Unqual occ -> warnAndMonospace occ
+      Qual mdl occ -> pure (DocIdentifierUnchecked (mdl, occ))
+      Orig _ occ -> warnAndMonospace occ
+      Exact name -> warnAndMonospace name  -- Shouldn't happen since x is out of scope
 
 -- | Warn about an ambiguous identifier.
-ambiguous :: RdrName -> Name -> [Name] -> ErrMsgGhc (Doc Name)
+ambiguous :: String -> Name -> [Name] -> ErrMsgGhc (Doc Name)
 ambiguous x dflt names = do
   dflags <- getDynFlags
   let msg = "Warning: " ++ x_str ++ " is ambiguous. It is defined\n" ++
@@ -181,7 +180,7 @@ ambiguous x dflt names = do
             "    You may be able to disambiguate the identifier by qualifying it or\n" ++
             "    by hiding some imports.\n" ++
             "    Defaulting to " ++ x_str ++ " defined " ++ defnLoc dflt
-      x_str = '\'' : showPpr dflags x ++ "'"
+      x_str = '\'' : x ++ "'"
       defnLoc = showSDoc dflags . pprNameDefnLoc
   liftErrMsg $ tell [msg]
   pure (DocIdentifier dflt)
