@@ -22,7 +22,7 @@ module Haddock.Interface.LexParseRn
 import Data.List
 import qualified Data.Map as Map
 import Documentation.Haddock.Doc (metaDocConcat)
-import DynFlags (languageExtensions)
+import DynFlags (getDynFlags, languageExtensions)
 import qualified GHC.LanguageExtensions as LangExt
 import GHC
 import Haddock.Interface.ParseModuleHeader
@@ -47,11 +47,11 @@ processDocStrings dflags pkg gre strs = do
 
 processDocStringParas :: DynFlags -> Maybe Package -> GlobalRdrEnv -> HsDoc Name -> ErrMsgGhc (MDoc Name)
 processDocStringParas dflags pkg gre hsDoc =
-  overDocF (rename dflags gre) $ parseParas dflags pkg (unpackHDS (hsDocString hsDoc))
+  overDocF (rename gre) $ parseParas dflags pkg (unpackHDS (hsDocString hsDoc))
 
 processDocString :: DynFlags -> GlobalRdrEnv -> HsDoc Name -> ErrMsgGhc (Doc Name)
 processDocString dflags gre hsDoc =
-  rename dflags gre $ parseString dflags (unpackHDS (hsDocString hsDoc))
+  rename gre $ parseString dflags (unpackHDS (hsDocString hsDoc))
 
 processModuleHeader :: DynFlags -> Maybe Package -> GlobalRdrEnv -> SafeHaskellMode -> Maybe (LHsDoc Name)
                     -> ErrMsgGhc (HaddockModInfo Name, Maybe (MDoc Name))
@@ -63,10 +63,10 @@ processModuleHeader dflags pkgName gre safety mayStr = do
         let str = unpackHDS (hsDocString hsDoc)
             (hmi, doc) = parseModuleHeader dflags pkgName str
         !descr <- case hmi_description hmi of
-                    Just hmi_descr -> Just <$> rename dflags gre hmi_descr
+                    Just hmi_descr -> Just <$> rename gre hmi_descr
                     Nothing        -> pure Nothing
         let hmi' = hmi { hmi_description = descr }
-        doc'  <- overDocF (rename dflags gre) doc
+        doc'  <- overDocF (rename gre) doc
         return (hmi', Just doc')
 
   let flags :: [LangExt.Extension]
@@ -86,8 +86,8 @@ processModuleHeader dflags pkgName gre safety mayStr = do
 -- fallbacks in case we can't locate the identifiers.
 --
 -- See the comments in the source for implementation commentary.
-rename :: DynFlags -> GlobalRdrEnv -> Doc RdrName -> ErrMsgGhc (Doc Name)
-rename dflags gre = rn
+rename :: GlobalRdrEnv -> Doc RdrName -> ErrMsgGhc (Doc Name)
+rename gre = rn
   where
     rn d = case d of
       DocAppend a b -> DocAppend <$> rn a <*> rn b
@@ -105,7 +105,9 @@ rename dflags gre = rn
           [] ->
             case choices of
               -- This shouldn't happen as 'dataTcOccs' always returns at least its input.
-              [] -> pure (DocMonospaced (DocString (showPpr dflags x)))
+              [] -> do
+                dflags <- getDynFlags
+                pure (DocMonospaced (DocString (showPpr dflags x)))
 
               -- There was nothing in the environment so we need to
               -- pick some default from what's available to us. We
@@ -115,7 +117,7 @@ rename dflags gre = rn
               -- type constructor names (such as in #253). So now we
               -- only get type constructor links if they are actually
               -- in scope.
-              a:_ -> outOfScope dflags a
+              a:_ -> outOfScope a
 
           -- There is only one name in the environment that matches so
           -- use it.
@@ -124,7 +126,7 @@ rename dflags gre = rn
           -- But when there are multiple names available, default to
           -- type constructors: somewhat awfully GHC returns the
           -- values in the list positionally.
-          a:b:_ -> ambiguous dflags x (if isTyConName a then a else b) names
+          a:b:_ -> ambiguous x (if isTyConName a then a else b) names
 
       DocWarning doc -> DocWarning <$> rn doc
       DocEmphasis doc -> DocEmphasis <$> rn doc
@@ -156,32 +158,32 @@ rename dflags gre = rn
 -- users shouldn't rely on this doing the right thing. See tickets
 -- #253 and #375 on the confusion this causes depending on which
 -- default we pick in 'rename'.
-outOfScope :: DynFlags -> RdrName -> ErrMsgGhc (Doc a)
-outOfScope dflags x =
+outOfScope :: RdrName -> ErrMsgGhc (Doc a)
+outOfScope x = do
+  dflags <- getDynFlags
+  let warnAndMonospace a = do
+        liftErrMsg $ tell ["Warning: '" ++ showPpr dflags a ++ "' is out of scope."]
+        pure (monospaced a)
+      monospaced a = DocMonospaced (DocString (showPpr dflags a))
   case x of
     Unqual occ -> warnAndMonospace occ
     Qual mdl occ -> pure (DocIdentifierUnchecked (mdl, occ))
     Orig _ occ -> warnAndMonospace occ
     Exact name -> warnAndMonospace name  -- Shouldn't happen since x is out of scope
-  where
-    warnAndMonospace a = do
-      liftErrMsg $ tell ["Warning: '" ++ showPpr dflags a ++ "' is out of scope."]
-      pure (monospaced a)
-    monospaced a = DocMonospaced (DocString (showPpr dflags a))
 
 -- | Warn about an ambiguous identifier.
-ambiguous :: DynFlags -> RdrName -> Name -> [Name] -> ErrMsgGhc (Doc Name)
-ambiguous dflags x dflt names = do
+ambiguous :: RdrName -> Name -> [Name] -> ErrMsgGhc (Doc Name)
+ambiguous x dflt names = do
+  dflags <- getDynFlags
+  let msg = "Warning: " ++ x_str ++ " is ambiguous. It is defined\n" ++
+            concatMap (\n -> "    * " ++ defnLoc n ++ "\n") names ++
+            "    You may be able to disambiguate the identifier by qualifying it or\n" ++
+            "    by hiding some imports.\n" ++
+            "    Defaulting to " ++ x_str ++ " defined " ++ defnLoc dflt
+      x_str = '\'' : showPpr dflags x ++ "'"
+      defnLoc = showSDoc dflags . pprNameDefnLoc
   liftErrMsg $ tell [msg]
   pure (DocIdentifier dflt)
-  where
-    msg = "Warning: " ++ x_str ++ " is ambiguous. It is defined\n" ++
-          concatMap (\n -> "    * " ++ defnLoc n ++ "\n") names ++
-          "    You may be able to disambiguate the identifier by qualifying it or\n" ++
-          "    by hiding some imports.\n" ++
-          "    Defaulting to " ++ x_str ++ " defined " ++ defnLoc dflt
-    x_str = '\'' : showPpr dflags x ++ "'"
-    defnLoc = showSDoc dflags . pprNameDefnLoc
 
 docIdEnvRenamer :: DocIdEnv -> Renamer
 docIdEnvRenamer doc_id_env s = Map.lookup s (Map.mapKeysMonotonic unpackHDS doc_id_env)
