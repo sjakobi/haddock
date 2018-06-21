@@ -36,7 +36,7 @@ import Documentation.Haddock.Types
 import BasicTypes (Fixity(..))
 
 import GHC hiding (NoLink)
-import DynFlags (Language)
+import DynFlags (Language, HasDynFlags(..))
 import qualified GHC.LanguageExtensions as LangExt
 import OccName
 import Outputable
@@ -672,6 +672,8 @@ instance Monad ErrMsgGhc where
   m >>= k = WriterGhc $ runWriterGhc m >>= \ (a, msgs1) ->
                fmap (second (msgs1 ++)) (runWriterGhc (k a))
 
+instance HasDynFlags ErrMsgGhc where
+  getDynFlags = liftGhcToErrMsgGhc getDynFlags
 
 -----------------------------------------------------------------------------
 -- * Pass sensitive types
