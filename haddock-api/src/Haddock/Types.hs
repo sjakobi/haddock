@@ -22,6 +22,7 @@ module Haddock.Types (
   module Haddock.Types
   , HsDocString, LHsDocString
   , Fixity(..)
+  , Identifier
   , module Documentation.Haddock.Types
  ) where
 
@@ -32,6 +33,7 @@ import Data.Typeable
 import Data.Map (Map)
 import Data.Data (Data)
 import qualified Data.Map as Map
+import Documentation.Haddock.Parser
 import Documentation.Haddock.Types
 import BasicTypes (Fixity(..))
 
