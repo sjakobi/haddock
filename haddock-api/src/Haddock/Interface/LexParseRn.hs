@@ -23,7 +23,7 @@ import Data.List
 import qualified Data.Map as Map
 import Documentation.Haddock.Doc (metaDocConcat)
 import qualified Documentation.Haddock.Parser as LibParser
-import DynFlags (getDynFlags, languageExtensions)
+import DynFlags (getDynFlags, languageExtensions, Language)
 import qualified GHC.LanguageExtensions as LangExt
 import GHC
 import Haddock.Interface.ParseModuleHeader
@@ -54,9 +54,11 @@ processDocString :: Renamer -> HsDoc Name -> ErrMsgGhc (Doc Name)
 processDocString renamer hsDoc =
   rename renamer $ LibParser.parseString (unpackHDS (hsDocString hsDoc))
 
-processModuleHeader :: DynFlags -> Maybe Package -> Renamer -> SafeHaskellMode -> Maybe HsDocString
+processModuleHeader :: Maybe Package -> Renamer -> SafeHaskellMode
+                    -> Maybe Language -> EnumSet LangExt.Extension
+                    -> Maybe HsDocString
                     -> ErrMsgGhc (HaddockModInfo Name, Maybe (MDoc Name))
-processModuleHeader dflags pkgName renamer safety mayStr = do
+processModuleHeader pkgName renamer safety mayLang extSet mayStr = do
   (hmi, doc) <-
     case mayStr of
       Nothing -> return failure
@@ -70,15 +72,10 @@ processModuleHeader dflags pkgName renamer safety mayStr = do
         doc'  <- overDocF (rename renamer) doc
         return (hmi', Just doc')
 
-  let flags :: [LangExt.Extension]
-      -- TODO: Make sure we're using the right dflags here (which are probably not
-      -- the current ones.
-
-      -- We remove the flags implied by the language setting and we display the language instead
-      flags = EnumSet.toList (extensionFlags dflags) \\ languageExtensions (language dflags)
+  dflags <- getDynFlags
   return (hmi { hmi_safety = Just $ showPpr dflags safety
-              , hmi_language = language dflags
-              , hmi_extensions = flags
+              , hmi_language = mayLang
+              , hmi_extensions = EnumSet.toList extSet
               } , doc)
   where
     failure = (emptyHaddockModInfo, Nothing)
