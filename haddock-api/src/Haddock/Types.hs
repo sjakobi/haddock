@@ -44,6 +44,7 @@ import OccName
 import Outputable
 import Control.Applicative (Applicative(..))
 import Control.Monad (ap)
+import Control.Monad.IO.Class
 
 import Haddock.Backends.Hyperlinker.Types
 
@@ -683,6 +684,9 @@ instance Monad ErrMsgGhc where
   return = pure
   m >>= k = WriterGhc $ runWriterGhc m >>= \ (a, msgs1) ->
                fmap (second (msgs1 ++)) (runWriterGhc (k a))
+
+instance MonadIO ErrMsgGhc where
+  liftIO = liftGhcToErrMsgGhc . liftIO
 
 instance HasDynFlags ErrMsgGhc where
   getDynFlags = liftGhcToErrMsgGhc getDynFlags
