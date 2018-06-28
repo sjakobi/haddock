@@ -219,8 +219,6 @@ createInterface' mod_iface flags modMap instIfaceMap = do
   return $! Interface {
     ifaceMod               = mdl -- Done
   , ifaceIsSig             = is_sig -- Done
-  , ifaceOrigFilename      = "this/field/will/be/Removed.hs"    -- TODO: Remove entire field
-                                                                -- together with %F syntax
   , ifaceInfo              = info -- Done
   , ifaceDoc               = Documentation mbDoc modWarn -- Done
   , ifaceRnDoc             = Documentation Nothing Nothing -- Done
@@ -361,7 +359,6 @@ createInterface tm flags modMap instIfaceMap = do
   return $! Interface {
     ifaceMod               = mdl
   , ifaceIsSig             = is_sig
-  , ifaceOrigFilename      = msHsFilePath ms
   , ifaceInfo              = info
   , ifaceDoc               = Documentation mbDoc modWarn
   , ifaceRnDoc             = Documentation Nothing Nothing
