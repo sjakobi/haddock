@@ -125,7 +125,8 @@ createInterface tm flags modMap instIfaceMap = do
       unrestrictedImportedMods
         -- module re-exports are only possible with
         -- explicit export list
-        | Just{} <- exports
+        -- For the purpose of module re-exports we ignore OptIgnoreExports.
+        | Just{} <- exports0
         = unrestrictedModuleImports (map unLoc imports)
         | otherwise = M.empty
 
