@@ -161,6 +161,7 @@ createIfaces verbosity flags instIfaceMap mods = do
   (ifaces, _) <- foldM f ([], Map.empty) sortedMods
   return (reverse ifaces)
   where
+    f :: ([Interface], IfaceMap) -> ModSummary -> Ghc ([Interface], IfaceMap)
     f (ifaces, ifaceMap) modSummary = do
       x <- {-# SCC processModule #-}
            withTiming getDynFlags "processModule" (const ()) $ do
