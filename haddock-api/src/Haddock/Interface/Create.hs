@@ -1,4 +1,5 @@
 {-# LANGUAGE CPP, TupleSections, BangPatterns, LambdaCase #-}
+{-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -Wwarn #-}
 -----------------------------------------------------------------------------
@@ -122,7 +123,8 @@ createInterface' mod_iface flags modMap instIfaceMap = do
 
   -- FIXME: md_types doesn't include the TyThings from re-exported modules.
   -- Use the modMap IfaceMap for those modules.
-  declMap <- mkDeclMap mod_details (docs_locations mod_iface_docs)
+  declMap <- mkDeclMap mdl -- TODO: Are we also interested in the samantic module here?
+                       mod_details (docs_locations mod_iface_docs) modMap instIfaceMap
 
   let localInsts = filter (nameIsLocalOrFrom sem_mdl)
                         $  map getName instances
@@ -340,12 +342,12 @@ createInterface tm flags modMap instIfaceMap = do
   , ifaceTokenizedSrc      = tokenizedSrc
   }
 
-mkDeclMap :: ModDetails -> Map Name SrcSpan -> ErrMsgGhc DeclMap
-mkDeclMap mod_details loc_map = do
+mkDeclMap :: Module -> ModDetails -> Map Name SrcSpan -> IfaceMap -> InstIfaceMap -> ErrMsgGhc DeclMap
+mkDeclMap this_mdl mod_details loc_map mod_map inst_iface_map = do
     dflags <- getDynFlags
 
-    let convert_ :: Name -> ErrMsgM (Maybe (LHsDecl GhcRn))
-        convert_ name =
+    let localDecl :: Name -> ErrMsgM (Maybe (LHsDecl GhcRn))
+        localDecl name =
           case lookupNameEnv (md_types mod_details) name of
             Nothing -> do
               tell ["createInterface': Didn't find " ++ O.showPpr dflags name ++ " in md_types"]
@@ -362,12 +364,38 @@ mkDeclMap mod_details loc_map = do
                     pure (Just (noLoc decl))
                   Just loc -> pure (Just (L loc decl))
 
-    decls <- liftErrMsg $ forM (md_exports mod_details) $ \avail -> do
+        localModuleDecls :: Interface -- The iface for the name's module.
+                         -> Name -> ErrMsgM (Maybe [LHsDecl GhcRn])
+        localModuleDecls iface name =
+          case M.lookup name (ifaceDeclMap iface) of
+            Nothing -> do
+              tell ["mkDeclMap: Didn't find " ++ O.showPpr dflags name ++
+                    " in " ++ O.showPpr dflags (nameModule name) ++ "'s ifaceDeclMap"]
+              pure Nothing
+            Just ldecls -> pure (Just ldecls)
+
+        externalDecls :: Name -> ErrMsgM (Maybe [LHsDecl GhcRn])
+        externalDecls _name = do
+          tell ["mkDeclMap.externalDecls: Not implemented"]
+          pure Nothing
+
+    ds <- liftErrMsg $ forM (md_exports mod_details) $ \avail -> do
       let mainName = availName avail
-          allNames = availNamesWithSelectors avail
-      decls <- catMaybes <$> traverse convert_ allNames
+          mdl = nameModule mainName
+      decls <- do
+        if | mdl == this_mdl -> do
+               let allNames = availNamesWithSelectors avail
+               catMaybes <$> traverse localDecl allNames
+           | Just iface <- M.lookup mdl mod_map ->
+               fromMaybe [] <$> localModuleDecls iface mainName
+             -- FIXME: Adapt findDecl / hiDecl for this.
+           | Just _inst_iface <- M.lookup mdl inst_iface_map ->
+               fromMaybe [] <$> externalDecls mainName
+           | otherwise -> do
+               tell ["mkDeclMap: Couldn't find any declarations for " ++ O.showPpr dflags mainName]
+               pure []
       pure (mainName, decls)
-    pure (M.fromList decls)
+    pure (M.fromList ds)
 
 -- | Given all of the @import M as N@ declarations in a package,
 -- create a mapping from the module identity of M, to an alias N
