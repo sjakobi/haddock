@@ -91,7 +91,7 @@ data Interface = Interface
     -- | Documentation header with cross-reference information.
   , ifaceRnDoc           :: !(Documentation DocName)
 
-    -- | Haddock options for this module (prune, ignore-exports, etc).
+    -- | Haddock options for this module (prune, not-home, etc).
   , ifaceOptions         :: ![DocOption]
 
     -- | Declarations originating from the module. Excludes declarations without
@@ -174,7 +174,7 @@ data InstalledInterface = InstalledInterface
     -- module.
   , instVisibleExports   :: [Name]
 
-    -- | Haddock options for this module (prune, ignore-exports, etc).
+    -- | Haddock options for this module (prune, not-home, etc).
   , instOptions          :: [DocOption]
 
   , instFixMap           :: Map Name Fixity
@@ -523,8 +523,6 @@ emptyHaddockModInfo = HaddockModInfo
 data DocOption
   = OptHide            -- ^ This module should not appear in the docs.
   | OptPrune
-    -- FIXME: Remove OptIgnoreExports
-  | OptIgnoreExports   -- ^ Pretend everything is exported.
   | OptNotHome         -- ^ Not the best place to get docs for things
                        -- exported by this module.
   | OptShowExtensions  -- ^ Render enabled extensions for this module.
