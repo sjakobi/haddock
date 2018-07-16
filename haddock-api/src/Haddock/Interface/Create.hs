@@ -56,6 +56,8 @@ import ConLike (ConLike(..))
 import GHC
 import GhcMonad
 import HscTypes
+import IfaceType
+import IfaceSyn
 import Name
 import NameSet
 import NameEnv
@@ -63,6 +65,7 @@ import qualified Outputable
 import Packages   ( lookupModuleInAllPackages, PackageName(..) )
 import Bag
 import RdrName
+import PprTyThing
 import SrcLoc
 import TcIface
 import TcRnMonad
@@ -1119,6 +1122,8 @@ hiDecl t = do
     Just x -> case tyThingToLHsDecl x of
       Left m -> liftErrMsg (tell [bugWarn m]) >> return Nothing
       Right (m, t') -> liftErrMsg (tell $ map bugWarn m)
+                      >> liftErrMsg (tell [ "TyThing: " ++ O.showSDoc dflags (pprTyThing showToIface x) ])
+                      >> liftErrMsg (tell [ "HsDecl GhcRn: " ++ pretty dflags t' ])
                       >> return (Just $ noLoc t')
     where
       warnLine x = O.text "haddock-bug:" O.<+> O.text x O.<>
