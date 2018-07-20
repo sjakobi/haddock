@@ -68,6 +68,8 @@ import GHC.IO.Encoding.CodePage (mkLocaleEncoding)
 import GHC.IO.Encoding.Failure (CodingFailureMode(TransliterateCodingFailure))
 #endif
 
+import System.IO
+
 -- | Create 'Interface's and a link environment by typechecking the list of
 -- modules using the GHC API and processing the resulting syntax trees.
 processModules
@@ -105,9 +107,20 @@ processModules verbosity modules flags extIfaces = do
                                              -- package
       links     = homeLinks `Map.union` extLinks
 
+  dflags <- getDynFlags
+
+  let errIndent n s = liftIO $ hPutStrLn stderr $ replicate (n * 2) ' ' ++ s
+  errIndent 0 $ "processModules"
+  forM_ (zip [1..] extIfaces) $ \(i, (InterfaceFile link_env installed_ifaces)) -> do
+    errIndent 1 $ "InterfaceFile #" ++ show i
+    errIndent 2 $ "Modules:"
+    forM_ installed_ifaces $ \inst_iface -> do
+      errIndent 3 $ moduleString (instMod inst_iface)
+    errIndent 2 $ "Links:"
+    forM_ (Map.toList link_env) $ \(name, mdl) -> do
+      errIndent 3 $ pretty dflags (nameModule name) ++ "." ++ pretty dflags name ++ ": " ++ pretty dflags mdl
   out verbosity verbose "Renaming interfaces..."
   let warnings = Flag_NoWarnings `notElem` flags
-  dflags <- getDynFlags
   let (interfaces'', msgs) =
          runWriter $ mapM (renameInterface dflags links warnings) interfaces'
   liftIO $ mapM_ putStrLn msgs

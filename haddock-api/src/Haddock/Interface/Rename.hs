@@ -32,7 +32,6 @@ import qualified Data.Map as Map hiding ( Map )
 import Prelude hiding (mapM)
 
 import Data.Map (Map)
-import Debug.Trace
 
 
 renameInterface :: DynFlags -> LinkEnv -> Bool -> Interface -> ErrMsgM Interface
@@ -79,19 +78,6 @@ renameInterface dflags renamingEnv warnings iface =
                 ]
 
   in do
-    {-
-    traceM $ "renamingEnv: " ++ pretty dflags renamingEnv
-    traceM $ "localEnv: " ++ pretty dflags localEnv
-
-    let elemsFromModule :: String -> Map Name a -> Map Name a
-        elemsFromModule mdl_name = Map.filterWithKey (\n _ -> moduleNameString (moduleName (nameModule n)) == mdl_name)
-
-    traceM $ "renamingEnv from Data.Foldable: " ++ pretty dflags (elemsFromModule "Data.Foldable" renamingEnv)
-    traceM $ "renamingEnv from GHC.OldList: " ++ pretty dflags (elemsFromModule "GHC.OldList" renamingEnv)
-
-    traceM $ "localEnv from Data.Foldable: " ++ pretty dflags (elemsFromModule "Data.Foldable" localEnv)
-    -}
-
     -- report things that we couldn't link to. Only do this for non-hidden
     -- modules.
     unless (OptHide `elem` ifaceOptions iface || null strings || not warnings) $
