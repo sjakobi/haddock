@@ -298,6 +298,7 @@ mkWarningMap dflags warnings gre exps = case warnings of
     in M.fromList <$> traverse (bitraverse pure (parseWarning dflags gre)) ws'
 
 moduleWarning :: DynFlags -> GlobalRdrEnv -> Warnings -> ErrMsgM (Maybe (Doc Name))
+moduleWarning _ _ _ = error "moduleWarning"
 moduleWarning _ _ NoWarnings = pure Nothing
 moduleWarning _ _ (WarnSome _) = pure Nothing
 moduleWarning dflags gre (WarnAll w) = Just <$> parseWarning dflags gre w
