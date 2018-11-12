@@ -79,8 +79,6 @@
 		      > (<a href="#" title="Instances"
 		      >(&lt;~~)</a
 		      > a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -141,7 +139,11 @@
 	    >class</span
 	    > <a id="t:Foo" class="def"
 	    >Foo</a
-	    > f <span class="keyword"
+	    > (f :: <a href="#" title="Data.Kind"
+	    >Type</a
+	    > -&gt; <a href="#" title="Data.Kind"
+	    >Type</a
+	    >) <span class="keyword"
 	    >where</span
 	    > <a href="#" class="selflink"
 	    >#</a
@@ -186,9 +188,9 @@
 		      ></span
 		      > <a href="#" title="Instances"
 		      >Foo</a
-		      > []</span
-		    > <a href="#" class="selflink"
-		    >#</a
+		      > <a href="#" title="Data.List"
+		      >[]</a
+		      ></span
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -237,8 +239,6 @@
 		      > <a href="#" title="GHC.Maybe"
 		      >Maybe</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -299,8 +299,6 @@
 		      > (<a href="#" title="Data.Either"
 		      >Either</a
 		      > a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -362,11 +360,9 @@
 		      >Foo</a
 		      > f) =&gt; <a href="#" title="Instances"
 		      >Foo</a
-		      > (<a href="#" title="GHC.Tuple"
+		      > (<a href="#" title="Data.Tuple"
 		      >(,)</a
 		      > (f a))</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -415,8 +411,6 @@
 		      > (<a href="#" title="Instances"
 		      >(&lt;~~)</a
 		      > a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -474,11 +468,9 @@
 		      ></span
 		      > <a href="#" title="Instances"
 		      >Foo</a
-		      > (<a href="#" title="GHC.Tuple"
+		      > (<a href="#" title="Data.Tuple"
 		      >(,,)</a
 		      > a a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -527,8 +519,6 @@
 		      > (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -586,13 +576,13 @@
 		      ></span
 		      > <a href="#" title="Instances"
 		      >Foo</a
-		      > ((-&gt;) a :: <a href="#" title="Data.Kind"
+		      > (<a href="#" title="Prelude"
+		      >(-&gt;)</a
+		      > a :: <a href="#" title="Data.Kind"
 		      >Type</a
 		      > -&gt; <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -612,17 +602,29 @@
 			><p class="src"
 			><a href="#"
 			  >foo</a
-			  > :: (a -&gt; <a href="#" title="Data.Int"
+			  > :: (a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > <a href="#" title="Data.Int"
 			  >Int</a
-			  >) -&gt; a0 -&gt; a -&gt; a0 <a href="#" class="selflink"
+			  >) -&gt; a0 -&gt; a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > a0 <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
 			><a href="#"
 			  >foo'</a
-			  > :: (a -&gt; (a -&gt; a0)) -&gt; <a href="#" title="Data.Int"
+			  > :: (a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > (a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > a0)) -&gt; <a href="#" title="Data.Int"
 			  >Int</a
-			  > -&gt; a -&gt; (a -&gt; <a href="#" title="Data.Int"
+			  > -&gt; a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > (a <a href="#" title="Prelude"
+			  >-&gt;</a
+			  > <a href="#" title="Data.Int"
 			  >Int</a
 			  >) <a href="#" class="selflink"
 			  >#</a
@@ -643,7 +645,11 @@
 	    >Foo</a
 	    > f =&gt; <a id="t:Bar" class="def"
 	    >Bar</a
-	    > f a <span class="keyword"
+	    > (f :: <a href="#" title="Data.Kind"
+	    >Type</a
+	    > -&gt; <a href="#" title="Data.Kind"
+	    >Type</a
+	    >) a <span class="keyword"
 	    >where</span
 	    > <a href="#" class="selflink"
 	    >#</a
@@ -701,8 +707,6 @@
 		      > <a href="#" title="Data.Bool"
 		      >Bool</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -803,8 +807,6 @@
 		      > <a href="#" title="GHC.Maybe"
 		      >Maybe</a
 		      > [a]</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -888,9 +890,9 @@
 		      ></span
 		      > <a href="#" title="Instances"
 		      >Bar</a
-		      > [] (a, a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
+		      > <a href="#" title="Data.List"
+		      >[]</a
+		      > (a, a)</span
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -949,8 +951,6 @@
 		      > (<a href="#" title="Data.Either"
 		      >Either</a
 		      > a) (f a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1034,15 +1034,13 @@
 		      ></span
 		      > <a href="#" title="Instances"
 		      >Foo</a
-		      > (<a href="#" title="GHC.Tuple"
+		      > (<a href="#" title="Data.Tuple"
 		      >(,,)</a
 		      > a b) =&gt; <a href="#" title="Instances"
 		      >Bar</a
-		      > (<a href="#" title="GHC.Tuple"
+		      > (<a href="#" title="Data.Tuple"
 		      >(,,)</a
 		      > a b) (a, b, a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1101,8 +1099,6 @@
 		      > a c) (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1222,9 +1218,9 @@
 	      >baz</a
 	      > :: a -&gt; (<span class="keyword"
 	      >forall</span
-	      > a. a -&gt; a) -&gt; (b, <span class="keyword"
+	      > a1. a1 -&gt; a1) -&gt; (b, <span class="keyword"
 	      >forall</span
-	      > c. c -&gt; a) -&gt; (b, c) <a href="#" class="selflink"
+	      > c1. c1 -&gt; a) -&gt; (b, c) <a href="#" class="selflink"
 	      >#</a
 	      ></p
 	    ><p class="src"
@@ -1232,9 +1228,9 @@
 	      >baz'</a
 	      > :: b -&gt; (<span class="keyword"
 	      >forall</span
-	      > b. b -&gt; a) -&gt; (<span class="keyword"
+	      > b1. b1 -&gt; a) -&gt; (<span class="keyword"
 	      >forall</span
-	      > b. b -&gt; a) -&gt; [(b, a)] <a href="#" class="selflink"
+	      > b1. b1 -&gt; a) -&gt; [(b, a)] <a href="#" class="selflink"
 	      >#</a
 	      ></p
 	    ><p class="src"
@@ -1242,11 +1238,11 @@
 	      >baz''</a
 	      > :: b -&gt; (<span class="keyword"
 	      >forall</span
-	      > b. (<span class="keyword"
+	      > b1. (<span class="keyword"
 	      >forall</span
-	      > b. b -&gt; a) -&gt; c) -&gt; <span class="keyword"
+	      > b2. b2 -&gt; a) -&gt; c) -&gt; <span class="keyword"
 	      >forall</span
-	      > c. c -&gt; b <a href="#" class="selflink"
+	      > c1. c1 -&gt; b <a href="#" class="selflink"
 	      >#</a
 	      ></p
 	    ></div
@@ -1263,8 +1259,6 @@
 		      > <a href="#" title="Instances"
 		      >Baz</a
 		      > [c]</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1286,9 +1280,9 @@
 			  >baz</a
 			  > :: [c] -&gt; (<span class="keyword"
 			  >forall</span
-			  > a. a -&gt; a) -&gt; (b, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b, <span class="keyword"
 			  >forall</span
-			  > c0. c0 -&gt; [c]) -&gt; (b, c1) <a href="#" class="selflink"
+			  > c1. c1 -&gt; [c]) -&gt; (b, c0) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1296,9 +1290,9 @@
 			  >baz'</a
 			  > :: b -&gt; (<span class="keyword"
 			  >forall</span
-			  > b. b -&gt; [c]) -&gt; (<span class="keyword"
+			  > b1. b1 -&gt; [c]) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b. b -&gt; [c]) -&gt; [(b, [c])] <a href="#" class="selflink"
+			  > b1. b1 -&gt; [c]) -&gt; [(b, [c])] <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1306,9 +1300,9 @@
 			  >baz''</a
 			  > :: b -&gt; (<span class="keyword"
 			  >forall</span
-			  > b. (<span class="keyword"
+			  > b1. (<span class="keyword"
 			  >forall</span
-			  > b. b -&gt; [c]) -&gt; c0) -&gt; <span class="keyword"
+			  > b2. b2 -&gt; [c]) -&gt; c0) -&gt; <span class="keyword"
 			  >forall</span
 			  > c1. c1 -&gt; b <a href="#" class="selflink"
 			  >#</a
@@ -1325,8 +1319,6 @@
 		      > <a href="#" title="Instances"
 		      >Baz</a
 		      > (a -&gt; b)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1348,9 +1340,9 @@
 			  >baz</a
 			  > :: (a -&gt; b) -&gt; (<span class="keyword"
 			  >forall</span
-			  > a0. a0 -&gt; a0) -&gt; (b0, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b0, <span class="keyword"
 			  >forall</span
-			  > c. c -&gt; a -&gt; b) -&gt; (b0, c) <a href="#" class="selflink"
+			  > c1. c1 -&gt; a -&gt; b) -&gt; (b0, c) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1360,7 +1352,7 @@
 			  >forall</span
 			  > b1. b1 -&gt; a -&gt; b) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b2. b2 -&gt; a -&gt; b) -&gt; [(b0, a -&gt; b)] <a href="#" class="selflink"
+			  > b1. b1 -&gt; a -&gt; b) -&gt; [(b0, a -&gt; b)] <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1372,7 +1364,7 @@
 			  >forall</span
 			  > b2. b2 -&gt; a -&gt; b) -&gt; c) -&gt; <span class="keyword"
 			  >forall</span
-			  > c. c -&gt; b0 <a href="#" class="selflink"
+			  > c1. c1 -&gt; b0 <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			></div
@@ -1387,8 +1379,6 @@
 		      > <a href="#" title="Instances"
 		      >Baz</a
 		      > (a, b, c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1410,9 +1400,9 @@
 			  >baz</a
 			  > :: (a, b, c) -&gt; (<span class="keyword"
 			  >forall</span
-			  > a0. a0 -&gt; a0) -&gt; (b0, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b0, <span class="keyword"
 			  >forall</span
-			  > c0. c0 -&gt; (a, b, c)) -&gt; (b0, c1) <a href="#" class="selflink"
+			  > c1. c1 -&gt; (a, b, c)) -&gt; (b0, c0) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1422,7 +1412,7 @@
 			  >forall</span
 			  > b1. b1 -&gt; (a, b, c)) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b2. b2 -&gt; (a, b, c)) -&gt; [(b0, (a, b, c))] <a href="#" class="selflink"
+			  > b1. b1 -&gt; (a, b, c)) -&gt; [(b0, (a, b, c))] <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1451,8 +1441,6 @@
 		      > (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1476,11 +1464,11 @@
 			  >Quux</a
 			  > a b c -&gt; (<span class="keyword"
 			  >forall</span
-			  > a0. a0 -&gt; a0) -&gt; (b0, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b0, <span class="keyword"
 			  >forall</span
-			  > c0. c0 -&gt; <a href="#" title="Instances"
+			  > c1. c1 -&gt; <a href="#" title="Instances"
 			  >Quux</a
-			  > a b c) -&gt; (b0, c1) <a href="#" class="selflink"
+			  > a b c) -&gt; (b0, c0) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1492,7 +1480,7 @@
 			  >Quux</a
 			  > a b c) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b2. b2 -&gt; <a href="#" title="Instances"
+			  > b1. b1 -&gt; <a href="#" title="Instances"
 			  >Quux</a
 			  > a b c) -&gt; [(b0, <a href="#" title="Instances"
 			  >Quux</a
@@ -1525,8 +1513,6 @@
 		      > <a href="#" title="Instances"
 		      >Baz</a
 		      > (a, [b], b, a)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1548,9 +1534,9 @@
 			  >baz</a
 			  > :: (a, [b], b, a) -&gt; (<span class="keyword"
 			  >forall</span
-			  > a0. a0 -&gt; a0) -&gt; (b0, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b0, <span class="keyword"
 			  >forall</span
-			  > c. c -&gt; (a, [b], b, a)) -&gt; (b0, c) <a href="#" class="selflink"
+			  > c1. c1 -&gt; (a, [b], b, a)) -&gt; (b0, c) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1560,7 +1546,7 @@
 			  >forall</span
 			  > b1. b1 -&gt; (a, [b], b, a)) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b2. b2 -&gt; (a, [b], b, a)) -&gt; [(b0, (a, [b], b, a))] <a href="#" class="selflink"
+			  > b1. b1 -&gt; (a, [b], b, a)) -&gt; [(b0, (a, [b], b, a))] <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1572,7 +1558,7 @@
 			  >forall</span
 			  > b2. b2 -&gt; (a, [b], b, a)) -&gt; c) -&gt; <span class="keyword"
 			  >forall</span
-			  > c. c -&gt; b0 <a href="#" class="selflink"
+			  > c1. c1 -&gt; b0 <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			></div
@@ -1637,8 +1623,6 @@
 		      > (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1701,8 +1685,6 @@
 		      > a c) (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1803,8 +1785,6 @@
 		      > (<a href="#" title="Instances"
 		      >Quux</a
 		      > a b c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1828,11 +1808,11 @@
 			  >Quux</a
 			  > a b c -&gt; (<span class="keyword"
 			  >forall</span
-			  > a0. a0 -&gt; a0) -&gt; (b0, <span class="keyword"
+			  > a1. a1 -&gt; a1) -&gt; (b0, <span class="keyword"
 			  >forall</span
-			  > c0. c0 -&gt; <a href="#" title="Instances"
+			  > c1. c1 -&gt; <a href="#" title="Instances"
 			  >Quux</a
-			  > a b c) -&gt; (b0, c1) <a href="#" class="selflink"
+			  > a b c) -&gt; (b0, c0) <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -1844,7 +1824,7 @@
 			  >Quux</a
 			  > a b c) -&gt; (<span class="keyword"
 			  >forall</span
-			  > b2. b2 -&gt; <a href="#" title="Instances"
+			  > b1. b1 -&gt; <a href="#" title="Instances"
 			  >Quux</a
 			  > a b c) -&gt; [(b0, <a href="#" title="Instances"
 			  >Quux</a
@@ -1883,8 +1863,6 @@
 		      > (<a href="#" title="Instances"
 		      >Quux</a
 		      > a [a] c)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1995,8 +1973,6 @@
 		      > <a href="#" title="Data.Bool"
 		      >Bool</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -2022,8 +1998,6 @@
 			  >Int</a
 			  > c <a href="#" title="Data.Bool"
 			  >Bool</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -2034,9 +2008,7 @@
 			  >Thud</a
 			  > <a href="#" title="Data.Int"
 			  >Int</a
-			  > c :: <a href="#" title="Data.Kind"
-			  >Type</a
-			  > <a href="#" class="selflink"
+			  > c <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			></div
@@ -2073,8 +2045,6 @@
 		      > <a href="#" title="Instances"
 		      >Norf</a
 		      > [a] [b]</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -2096,9 +2066,7 @@
 			  >type</span
 			  > <a href="#" title="Instances"
 			  >Plugh</a
-			  > [a] c [b] :: <a href="#" title="Data.Kind"
-			  >Type</a
-			  > <a href="#" class="selflink"
+			  > [a] c [b] <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			><p class="src"
@@ -2106,9 +2074,7 @@
 			  >data</span
 			  > <a href="#" title="Instances"
 			  >Thud</a
-			  > [a] c :: <a href="#" title="Data.Kind"
-			  >Type</a
-			  > <a href="#" class="selflink"
+			  > [a] c <a href="#" class="selflink"
 			  >#</a
 			  ></p
 			></div
@@ -2124,6 +2090,152 @@
 			  >#</a
 			  ></p
 			></div
+		      ></details
+		    ></td
+		  ></tr
+		></table
+	      ></details
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data family</span
+	    > <a id="t:Thud" class="def"
+	    >Thud</a
+	    > a c <a href="#" class="selflink"
+	    >#</a
+	    ></p
+	  ><div class="subs instances"
+	  ><details id="i:Thud" open="open"
+	    ><summary
+	      >Instances</summary
+	      ><table
+	      ><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:Thud:Thud:1"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="Instances"
+		      >Thud</a
+		      > <a href="#" title="Data.Int"
+		      >Int</a
+		      > [a]</span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:Thud:Thud:1"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>Instances</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="Instances"
+			>Thud</a
+			> <a href="#" title="Data.Int"
+			>Int</a
+			> [a] = <a id="v:Thuuuud" class="def"
+			>Thuuuud</a
+			> <a href="#" title="Data.Bool"
+			>Bool</a
+			></div
+		      ></details
+		    ></td
+		  ></tr
+		><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:Thud:Thud:2"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="Instances"
+		      >Thud</a
+		      > <a href="#" title="Data.Int"
+		      >Int</a
+		      > (<a href="#" title="Instances"
+		      >Quux</a
+		      > a [a] c)</span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:Thud:Thud:2"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>Instances</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="Instances"
+			>Thud</a
+			> <a href="#" title="Data.Int"
+			>Int</a
+			> (<a href="#" title="Instances"
+			>Quux</a
+			> a [a] c) <ul class="inst"
+			><li class="inst"
+			  >= <a id="v:Thuud" class="def"
+			    >Thuud</a
+			    > a</li
+			  ><li class="inst"
+			  >| <a id="v:Thuuud" class="def"
+			    >Thuuud</a
+			    > <a href="#" title="Data.Int"
+			    >Int</a
+			    > <a href="#" title="Data.Int"
+			    >Int</a
+			    ></li
+			  ></ul
+			></div
+		      ></details
+		    ></td
+		  ></tr
+		><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:Thud:Thud:3"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="Instances"
+		      >Thud</a
+		      > [a] (a, a, a)</span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:Thud:Thud:3"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>Instances</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="Instances"
+			>Thud</a
+			> [a] (a, a, a) = <a id="v:Thd" class="def"
+			>Thd</a
+			> a</div
 		      ></details
 		    ></td
 		  ></tr

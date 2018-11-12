@@ -98,7 +98,7 @@
 	      >class</span
 	      > <a href="#"
 	      >Test</a
-	      > a</li
+	      > (a :: k)</li
 	    ><li class="src short"
 	    ><span class="keyword"
 	      >type family</span
@@ -110,13 +110,13 @@
 	      >data family</span
 	      > <a href="#"
 	      >Bat</a
-	      > (a :: k) :: *</li
+	      > (a :: k)</li
 	    ><li class="src short"
 	    ><span class="keyword"
 	      >class</span
 	      > <a href="#"
 	      >Assoc</a
-	      > a <span class="keyword"
+	      > (a :: k) <span class="keyword"
 	      >where</span
 	      ><ul class="subs"
 	      ><li
@@ -124,13 +124,13 @@
 		  >data</span
 		  > <a href="#"
 		  >AssocD</a
-		  > a :: *</li
+		  > (a :: k)</li
 		><li
 		><span class="keyword"
 		  >type</span
 		  > <a href="#"
 		  >AssocT</a
-		  > a :: *</li
+		  > (a :: k)</li
 		></ul
 	      ></li
 	    ><li class="src short"
@@ -153,6 +153,12 @@
 	      > (a :: k) <a href="#"
 	      >&gt;&lt;</a
 	      > (b :: k)</li
+	    ><li class="src short"
+	    ><span class="keyword"
+	      >data family</span
+	      > <a href="#"
+	      >AssocD</a
+	      > (a :: k)</li
 	    ></ul
 	  ></details
 	></div
@@ -225,8 +231,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >XXX</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -253,8 +257,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -280,8 +282,6 @@
 			  >AssocD</a
 			  > <a href="#" title="TypeFamilies"
 			  >X</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -292,8 +292,6 @@
 			  >AssocT</a
 			  > <a href="#" title="TypeFamilies"
 			  >X</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -311,8 +309,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -343,8 +339,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -387,8 +381,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >XX</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -429,8 +421,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -469,8 +459,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -513,8 +501,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -579,8 +565,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -623,8 +607,6 @@
 		      > (a :: <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -685,8 +667,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -712,8 +692,6 @@
 			  >AssocD</a
 			  > <a href="#" title="TypeFamilies"
 			  >Y</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -724,8 +702,6 @@
 			  >AssocT</a
 			  > <a href="#" title="TypeFamilies"
 			  >Y</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -743,8 +719,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -775,8 +749,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -813,8 +785,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -853,8 +823,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -895,8 +863,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -939,8 +905,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -983,8 +947,6 @@
 		      > (a :: <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1067,8 +1029,6 @@
 		      > (z :: <a href="#" title="TypeFamilies"
 		      >Z</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -1097,11 +1057,7 @@
 			><li class="inst"
 			  ><a id="v:BatZ1" class="def"
 			    >BatZ1</a
-			    > :: <span class="keyword"
-			    >forall</span
-			    > (z :: <a href="#" title="TypeFamilies"
-			    >Z</a
-			    >). <a href="#" title="TypeFamilies"
+			    > :: <a href="#" title="TypeFamilies"
 			    >Z</a
 			    > -&gt; <a href="#" title="TypeFamilies"
 			    >Bat</a
@@ -1111,11 +1067,7 @@
 			  ><li class="inst"
 			  ><a id="v:BatZ2" class="def"
 			    >BatZ2</a
-			    > :: <span class="keyword"
-			    >forall</span
-			    > (z :: <a href="#" title="TypeFamilies"
-			    >Z</a
-			    >). {..} -&gt; <a href="#" title="TypeFamilies"
+			    > :: {..} -&gt; <a href="#" title="TypeFamilies"
 			    >Bat</a
 			    > <a href="#" title="TypeFamilies"
 			    >ZB</a
@@ -1135,7 +1087,7 @@
 	    >class</span
 	    > <a id="t:Test" class="def"
 	    >Test</a
-	    > a <a href="#" class="selflink"
+	    > (a :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1155,14 +1107,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Test</a
 		      > <a href="#" title="TypeFamilies"
-		      >Y</a
+		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: instance Test Y</p
+		    >Doc for: instance Test X</p
 		    ></td
 		  ></tr
 		><tr
@@ -1185,14 +1135,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Test</a
 		      > <a href="#" title="TypeFamilies"
-		      >X</a
+		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: instance Test X</p
+		    >Doc for: instance Test Y</p
 		    ></td
 		  ></tr
 		><tr
@@ -1239,14 +1187,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Foo</a
 		      > <a href="#" title="TypeFamilies"
-		      >Y</a
+		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: type instance Foo Y = X</p
+		    >Doc for: type instance Foo X = Y</p
 		    ></td
 		  ></tr
 		><tr
@@ -1264,9 +1210,9 @@
 			> <a href="#" title="TypeFamilies"
 			>Foo</a
 			> <a href="#" title="TypeFamilies"
-			>Y</a
-			> = <a href="#" title="TypeFamilies"
 			>X</a
+			> = <a href="#" title="TypeFamilies"
+			>Y</a
 			></div
 		      ></details
 		    ></td
@@ -1281,14 +1227,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Foo</a
 		      > <a href="#" title="TypeFamilies"
-		      >X</a
+		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: type instance Foo X = Y</p
+		    >Doc for: type instance Foo Y = X</p
 		    ></td
 		  ></tr
 		><tr
@@ -1306,9 +1250,9 @@
 			> <a href="#" title="TypeFamilies"
 			>Foo</a
 			> <a href="#" title="TypeFamilies"
-			>X</a
-			> = <a href="#" title="TypeFamilies"
 			>Y</a
+			> = <a href="#" title="TypeFamilies"
+			>X</a
 			></div
 		      ></details
 		    ></td
@@ -1323,7 +1267,7 @@
 	    >data family</span
 	    > <a id="t:Bat" class="def"
 	    >Bat</a
-	    > (a :: k) :: * <a href="#" class="selflink"
+	    > (a :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1347,8 +1291,6 @@
 		      > (z :: <a href="#" title="TypeFamilies"
 		      >Z</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -1377,11 +1319,7 @@
 			><li class="inst"
 			  ><a id="v:BatZ1" class="def"
 			    >BatZ1</a
-			    > :: <span class="keyword"
-			    >forall</span
-			    > (z :: <a href="#" title="TypeFamilies"
-			    >Z</a
-			    >). <a href="#" title="TypeFamilies"
+			    > :: <a href="#" title="TypeFamilies"
 			    >Z</a
 			    > -&gt; <a href="#" title="TypeFamilies"
 			    >Bat</a
@@ -1391,11 +1329,7 @@
 			  ><li class="inst"
 			  ><a id="v:BatZ2" class="def"
 			    >BatZ2</a
-			    > :: <span class="keyword"
-			    >forall</span
-			    > (z :: <a href="#" title="TypeFamilies"
-			    >Z</a
-			    >). {..} -&gt; <a href="#" title="TypeFamilies"
+			    > :: {..} -&gt; <a href="#" title="TypeFamilies"
 			    >Bat</a
 			    > <a href="#" title="TypeFamilies"
 			    >ZB</a
@@ -1415,54 +1349,8 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Bat</a
 		      > <a href="#" title="TypeFamilies"
-		      >Y</a
-		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
-		    ></td
-		  ><td class="doc"
-		  ><p
-		    >Doc for: data instance Bat Y</p
-		    ></td
-		  ></tr
-		><tr
-		><td colspan="2"
-		  ><details id="i:if:Bat:Bat:2"
-		    ><summary class="hide-when-js-enabled"
-		      >Instance details</summary
-		      ><p
-		      >Defined in <a href="#"
-			>TypeFamilies</a
-			></p
-		      > <div class="src"
-		      ><span class="keyword"
-			>data</span
-			> <a href="#" title="TypeFamilies"
-			>Bat</a
-			> <a href="#" title="TypeFamilies"
-			>Y</a
-			> = <a id="v:BatY" class="def"
-			>BatY</a
-			> <a href="#" title="TypeFamilies"
-			>Y</a
-			></div
-		      ></details
-		    ></td
-		  ></tr
-		><tr
-		><td class="src clearfix"
-		  ><span class="inst-left"
-		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:Bat:Bat:3"
-		      ></span
-		      > <span class="keyword"
-		      >data</span
-		      > <a href="#" title="TypeFamilies"
-		      >Bat</a
-		      > <a href="#" title="TypeFamilies"
 		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
@@ -1471,7 +1359,7 @@
 		  ></tr
 		><tr
 		><td colspan="2"
-		  ><details id="i:if:Bat:Bat:3"
+		  ><details id="i:if:Bat:Bat:2"
 		    ><summary class="hide-when-js-enabled"
 		      >Instance details</summary
 		      ><p
@@ -1515,6 +1403,48 @@
 		      ></details
 		    ></td
 		  ></tr
+		><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:Bat:Bat:3"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="TypeFamilies"
+		      >Bat</a
+		      > <a href="#" title="TypeFamilies"
+		      >Y</a
+		      ></span
+		    ></td
+		  ><td class="doc"
+		  ><p
+		    >Doc for: data instance Bat Y</p
+		    ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:Bat:Bat:3"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>TypeFamilies</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="TypeFamilies"
+			>Bat</a
+			> <a href="#" title="TypeFamilies"
+			>Y</a
+			> = <a id="v:BatY" class="def"
+			>BatY</a
+			> <a href="#" title="TypeFamilies"
+			>Y</a
+			></div
+		      ></details
+		    ></td
+		  ></tr
 		></table
 	      ></details
 	    ></div
@@ -1525,7 +1455,7 @@
 	    >class</span
 	    > <a id="t:Assoc" class="def"
 	    >Assoc</a
-	    > a <a href="#" class="selflink"
+	    > (a :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -1540,7 +1470,7 @@
 	      >data</span
 	      > <a id="t:AssocD" class="def"
 	      >AssocD</a
-	      > a :: * <a href="#" class="selflink"
+	      > (a :: k) <a href="#" class="selflink"
 	      >#</a
 	      ></p
 	    ><div class="doc"
@@ -1552,7 +1482,7 @@
 	      >type</span
 	      > <a id="t:AssocT" class="def"
 	      >AssocT</a
-	      > a :: * <a href="#" class="selflink"
+	      > (a :: k) <a href="#" class="selflink"
 	      >#</a
 	      ></p
 	    ><div class="doc"
@@ -1573,14 +1503,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Assoc</a
 		      > <a href="#" title="TypeFamilies"
-		      >Y</a
+		      >X</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: instance Assoc Y</p
+		    >Doc for: instance Assoc X</p
 		    ></td
 		  ></tr
 		><tr
@@ -1601,9 +1529,7 @@
 			  > <a href="#" title="TypeFamilies"
 			  >AssocD</a
 			  > <a href="#" title="TypeFamilies"
-			  >Y</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
+			  >X</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -1613,9 +1539,7 @@
 			  > <a href="#" title="TypeFamilies"
 			  >AssocT</a
 			  > <a href="#" title="TypeFamilies"
-			  >Y</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
+			  >X</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -1631,14 +1555,12 @@
 		      > <a href="#" title="TypeFamilies"
 		      >Assoc</a
 		      > <a href="#" title="TypeFamilies"
-		      >X</a
+		      >Y</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc"
 		  ><p
-		    >Doc for: instance Assoc X</p
+		    >Doc for: instance Assoc Y</p
 		    ></td
 		  ></tr
 		><tr
@@ -1659,9 +1581,7 @@
 			  > <a href="#" title="TypeFamilies"
 			  >AssocD</a
 			  > <a href="#" title="TypeFamilies"
-			  >X</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
+			  >Y</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -1671,9 +1591,7 @@
 			  > <a href="#" title="TypeFamilies"
 			  >AssocT</a
 			  > <a href="#" title="TypeFamilies"
-			  >X</a
-			  > :: <a href="#" title="Data.Kind"
-			  >Type</a
+			  >Y</a
 			  > <a href="#" class="selflink"
 			  >#</a
 			  ></p
@@ -1757,8 +1675,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >XX</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1795,14 +1711,12 @@
 		      > <span class="keyword"
 		      >type</span
 		      > <a href="#" title="TypeFamilies"
-		      >Y</a
+		      >X</a
 		      > <a href="#" title="TypeFamilies"
 		      >&lt;&gt;</a
 		      > (a :: <a href="#" title="Data.Kind"
 		      >Type</a
 		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1810,48 +1724,6 @@
 		><tr
 		><td colspan="2"
 		  ><details id="i:if:-60--62-:-60--62-:2"
-		    ><summary class="hide-when-js-enabled"
-		      >Instance details</summary
-		      ><p
-		      >Defined in <a href="#"
-			>TypeFamilies</a
-			></p
-		      > <div class="src"
-		      ><span class="keyword"
-			>type</span
-			> <a href="#" title="TypeFamilies"
-			>Y</a
-			> <a href="#" title="TypeFamilies"
-			>&lt;&gt;</a
-			> (a :: <a href="#" title="Data.Kind"
-			>Type</a
-			>) = a</div
-		      ></details
-		    ></td
-		  ></tr
-		><tr
-		><td class="src clearfix"
-		  ><span class="inst-left"
-		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:-60--62-:-60--62-:3"
-		      ></span
-		      > <span class="keyword"
-		      >type</span
-		      > <a href="#" title="TypeFamilies"
-		      >X</a
-		      > <a href="#" title="TypeFamilies"
-		      >&lt;&gt;</a
-		      > (a :: <a href="#" title="Data.Kind"
-		      >Type</a
-		      >)</span
-		    > <a href="#" class="selflink"
-		    >#</a
-		    ></td
-		  ><td class="doc empty"
-		  ></td
-		  ></tr
-		><tr
-		><td colspan="2"
-		  ><details id="i:if:-60--62-:-60--62-:3"
 		    ><summary class="hide-when-js-enabled"
 		      >Instance details</summary
 		      ><p
@@ -1870,6 +1742,46 @@
 			>) = <a href="#" title="TypeFamilies"
 			>X</a
 			></div
+		      ></details
+		    ></td
+		  ></tr
+		><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:-60--62-:-60--62-:3"
+		      ></span
+		      > <span class="keyword"
+		      >type</span
+		      > <a href="#" title="TypeFamilies"
+		      >Y</a
+		      > <a href="#" title="TypeFamilies"
+		      >&lt;&gt;</a
+		      > (a :: <a href="#" title="Data.Kind"
+		      >Type</a
+		      >)</span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:-60--62-:-60--62-:3"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>TypeFamilies</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>type</span
+			> <a href="#" title="TypeFamilies"
+			>Y</a
+			> <a href="#" title="TypeFamilies"
+			>&lt;&gt;</a
+			> (a :: <a href="#" title="Data.Kind"
+			>Type</a
+			>) = a</div
 		      ></details
 		    ></td
 		  ></tr
@@ -1903,8 +1815,6 @@
 		      > <a href="#" title="TypeFamilies"
 		      >XXX</a
 		      ></span
-		    > <a href="#" class="selflink"
-		    >#</a
 		    ></td
 		  ><td class="doc empty"
 		  ></td
@@ -1918,6 +1828,104 @@
 		      >Defined in <a href="#"
 			>TypeFamilies</a
 			></p
+		      ></details
+		    ></td
+		  ></tr
+		></table
+	      ></details
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data family</span
+	    > <a id="t:AssocD" class="def"
+	    >AssocD</a
+	    > (a :: k) <a href="#" class="selflink"
+	    >#</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Doc for: data AssocD a</p
+	    ></div
+	  ><div class="subs instances"
+	  ><details id="i:AssocD" open="open"
+	    ><summary
+	      >Instances</summary
+	      ><table
+	      ><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:AssocD:AssocD:1"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="TypeFamilies"
+		      >AssocD</a
+		      > <a href="#" title="TypeFamilies"
+		      >X</a
+		      ></span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:AssocD:AssocD:1"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>TypeFamilies</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="TypeFamilies"
+			>AssocD</a
+			> <a href="#" title="TypeFamilies"
+			>X</a
+			> = <a id="v:AssocX" class="def"
+			>AssocX</a
+			></div
+		      ></details
+		    ></td
+		  ></tr
+		><tr
+		><td class="src clearfix"
+		  ><span class="inst-left"
+		    ><span class="instance details-toggle-control details-toggle" data-details-id="i:if:AssocD:AssocD:2"
+		      ></span
+		      > <span class="keyword"
+		      >data</span
+		      > <a href="#" title="TypeFamilies"
+		      >AssocD</a
+		      > <a href="#" title="TypeFamilies"
+		      >Y</a
+		      ></span
+		    ></td
+		  ><td class="doc empty"
+		  ></td
+		  ></tr
+		><tr
+		><td colspan="2"
+		  ><details id="i:if:AssocD:AssocD:2"
+		    ><summary class="hide-when-js-enabled"
+		      >Instance details</summary
+		      ><p
+		      >Defined in <a href="#"
+			>TypeFamilies</a
+			></p
+		      > <div class="src"
+		      ><span class="keyword"
+			>data</span
+			> <a href="#" title="TypeFamilies"
+			>AssocD</a
+			> <a href="#" title="TypeFamilies"
+			>Y</a
+			> = <a id="v:AssocY" class="def"
+			>AssocY</a
+			></div
 		      ></details
 		    ></td
 		  ></tr

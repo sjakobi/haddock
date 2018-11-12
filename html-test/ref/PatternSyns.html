@@ -64,9 +64,7 @@
 	      >pattern</span
 	      > <a href="#"
 	      >Foo</a
-	      > :: <span class="keyword"
-	      >forall</span
-	      > x. x -&gt; <a href="#" title="PatternSyns"
+	      > :: x -&gt; <a href="#" title="PatternSyns"
 	      >FooType</a
 	      > x</li
 	    ><li class="src short"
@@ -74,9 +72,7 @@
 	      >pattern</span
 	      > <a href="#"
 	      >Bar</a
-	      > :: <span class="keyword"
-	      >forall</span
-	      > x. x -&gt; <a href="#" title="PatternSyns"
+	      > :: x -&gt; <a href="#" title="PatternSyns"
 	      >FooType</a
 	      > (<a href="#" title="PatternSyns"
 	      >FooType</a
@@ -86,9 +82,7 @@
 	      >pattern</span
 	      > <a href="#"
 	      >(:&lt;-&gt;)</a
-	      > :: <span class="keyword"
-	      >forall</span
-	      > x x1. x -&gt; x1 -&gt; (<a href="#" title="PatternSyns"
+	      > :: x -&gt; x1 -&gt; (<a href="#" title="PatternSyns"
 	      >FooType</a
 	      > x, <a href="#" title="PatternSyns"
 	      >FooType</a
@@ -110,9 +104,7 @@
 	      >pattern</span
 	      > <a href="#"
 	      >Blub</a
-	      > :: () =&gt; <span class="keyword"
-	      >forall</span
-	      > x. <a href="#" title="Text.Show"
+	      > :: () =&gt; <a href="#" title="Text.Show"
 	      >Show</a
 	      > x =&gt; x -&gt; <a href="#" title="PatternSyns"
 	      >BlubType</a
@@ -120,9 +112,9 @@
 	    ><li class="src short"
 	    ><span class="keyword"
 	      >data</span
-	      > (a :: *) <a href="#"
+	      > a <a href="#"
 	      >&gt;&lt;</a
-	      > b = <a href="#"
+	      > (b :: k) = <a href="#"
 	      >Empty</a
 	      ></li
 	    ><li class="src short"
@@ -130,9 +122,7 @@
 	      >pattern</span
 	      > <a href="#"
 	      >E</a
-	      > :: <span class="keyword"
-	      >forall</span
-	      > k a (b :: k). a <a href="#" title="PatternSyns"
+	      > :: a <a href="#" title="PatternSyns"
 	      >&gt;&lt;</a
 	      > b</li
 	    ><li class="src short"
@@ -185,9 +175,7 @@
 	    >pattern</span
 	    > <a id="v:Foo" class="def"
 	    >Foo</a
-	    > :: <span class="keyword"
-	    >forall</span
-	    > x. x -&gt; <a href="#" title="PatternSyns"
+	    > :: x -&gt; <a href="#" title="PatternSyns"
 	    >FooType</a
 	    > x <a href="#" class="selflink"
 	    >#</a
@@ -207,9 +195,7 @@
 	    >pattern</span
 	    > <a id="v:Bar" class="def"
 	    >Bar</a
-	    > :: <span class="keyword"
-	    >forall</span
-	    > x. x -&gt; <a href="#" title="PatternSyns"
+	    > :: x -&gt; <a href="#" title="PatternSyns"
 	    >FooType</a
 	    > (<a href="#" title="PatternSyns"
 	    >FooType</a
@@ -231,9 +217,7 @@
 	    >pattern</span
 	    > <a id="v::-60--45--62-" class="def"
 	    >(:&lt;-&gt;)</a
-	    > :: <span class="keyword"
-	    >forall</span
-	    > x x1. x -&gt; x1 -&gt; (<a href="#" title="PatternSyns"
+	    > :: x -&gt; x1 -&gt; (<a href="#" title="PatternSyns"
 	    >FooType</a
 	    > x, <a href="#" title="PatternSyns"
 	    >FooType</a
@@ -287,9 +271,7 @@
 	    >pattern</span
 	    > <a id="v:Blub" class="def"
 	    >Blub</a
-	    > :: () =&gt; <span class="keyword"
-	    >forall</span
-	    > x. <a href="#" title="Text.Show"
+	    > :: () =&gt; <a href="#" title="Text.Show"
 	    >Show</a
 	    > x =&gt; x -&gt; <a href="#" title="PatternSyns"
 	    >BlubType</a
@@ -309,9 +291,9 @@
 	><p class="src"
 	  ><span class="keyword"
 	    >data</span
-	    > (a :: *) <a id="t:-62--60-" class="def"
+	    > a <a id="t:-62--60-" class="def"
 	    >&gt;&lt;</a
-	    > b <a href="#" class="selflink"
+	    > (b :: k) <a href="#" class="selflink"
 	    >#</a
 	    ></p
 	  ><div class="doc"
@@ -343,9 +325,7 @@
 	    >pattern</span
 	    > <a id="v:E" class="def"
 	    >E</a
-	    > :: <span class="keyword"
-	    >forall</span
-	    > k a (b :: k). a <a href="#" title="PatternSyns"
+	    > :: a <a href="#" title="PatternSyns"
 	    >&gt;&lt;</a
 	    > b <a href="#" class="selflink"
 	    >#</a
