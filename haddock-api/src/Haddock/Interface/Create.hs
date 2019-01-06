@@ -69,7 +69,7 @@ createInterface mod_iface flags modMap instIfaceMap = do
   dflags <- getDynFlags
 
   let mdl            = mi_module mod_iface
-      sem_mdl        = mi_semantic_module mod_iface
+      -- sem_mdl        = mi_semantic_module mod_iface
       is_sig         = isJust (mi_sig_of mod_iface)
       safety         = getSafeMode (mi_trust mod_iface)
 
@@ -120,10 +120,13 @@ createInterface mod_iface flags modMap instIfaceMap = do
     (md_insts &&& md_fam_insts)
        <$> initIfaceCheck (Outputable.text "createInterface'") hsc_env
                           (typecheckIface mod_iface)
-  let localInsts = filter (nameIsLocalOrFrom sem_mdl)
-                        $  map getName instances
-                        ++ map getName fam_instances
-      instanceMap = M.fromList (map (getSrcSpan &&& id) localInsts)
+  let -- localInsts = filter (nameIsLocalOrFrom sem_mdl)
+      --                   $  map getName instances
+      --                   ++ map getName fam_instances
+      -- instanceMap = M.fromList (map (getSrcSpan &&& id) localInsts)
+      instanceMap = docs_instance_locs mod_iface_docs
+      -- FIXME: Somehow ensureDifferent 'Name's in instanceMap.
+  -- -> Use instanceMap Names for typechecking (fam_)instances?
 
   let allWarnings = M.unions (warningMap : map ifaceWarningMap (M.elems modMap))
 
